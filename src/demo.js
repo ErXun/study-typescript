@@ -26,6 +26,7 @@ b = false;
  *  2.unknown 类型，unknown 类型就是一个类型安全的 any
  * unknown 类型的变量不能直接赋值给其他变量
  * (只能将 unknown 类型的变量赋值给 any 和 unknown)
+ * unknown 没有办法读取任何类型，也不可调用方法
  */
 var aa;
 var bb = true;
@@ -36,6 +37,8 @@ aa = c; // 因为 aa 是 any 类型，所以不会报错
 // bb = c // 报错,
 // d = c; 正确，只能将 unknown 类型的变量赋值给 any 和 unknown
 console.log("aa", aa);
+// let cba: unknown = { name: "erxun" };
+// console.log("cba.name", cba.name);
 /**
  * 3.对象类型声明
  */
@@ -75,7 +78,7 @@ var Gender;
 var p;
 p = {
     name: "孙大圣",
-    gender: Gender.male
+    gender: Gender.male,
 };
 var Color;
 (function (Color) {
@@ -134,8 +137,54 @@ var Boy = /** @class */ (function (_super) {
     return Boy;
 }(Person));
 var nb = new Boy("尔尔");
-alert(nb.getName());
 function play(h) {
-    alert(h.ball);
+    // alert(h.ball);
 }
+// play({ ball: "basketball", year: 11, star: "kobe" });
 play({ ball: "basketball", year: 11 });
+/**
+ * 泛型：可以支持不特定的数据类型，要求传入的类型和返回的类型一致(解决类，接口，方法的复用性，以及对不特定数据类型的支持)
+ */
+// T 表示泛型，具体什么类型是调用这个方法的时候决定的
+function getData(value) {
+    return value;
+}
+getData(123);
+// 泛型类tsc
+var People = /** @class */ (function () {
+    function People() {
+        this.info = [];
+    }
+    People.prototype.add = function (value) {
+        this.info.push(value);
+    };
+    People.prototype.get = function () {
+        return this.info;
+    };
+    return People;
+}());
+var xp = new People();
+xp.add("erxun");
+xp.add("boy");
+xp.add(20);
+console.log(xp.get());
+// alert(xp.get());
+/**
+ * 类型断言,允许开发者手动指定一个值的类型，即告诉编译器一个变量的类型，从而可以避免一些类型检查错误或者限制。
+ * (一种 "欺骗" typescript 类型判断的机制,运行时错误无法避免，勿滥用！！！)
+ * 类型断言有两种形式：尖括号语法和 as 语法。
+ */
+//
+var numberA = 123;
+var stringA = "456";
+// as 语法
+function rLength(str) {
+    var len = str.length;
+    console.log("类型断言----", len);
+}
+rLength(numberA);
+function cTest(val) {
+    var newAge = val.age;
+    console.log("newAge", newAge);
+}
+cTest({ name: "erxun", age: 20 });
