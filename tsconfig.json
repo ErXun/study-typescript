@@ -7,8 +7,17 @@
     2. exclude,不需要被编译的文件，有一些默认值
   */
   "include": [
-   "./src/**/*"
+    "./src/**/*"
   ],
-  "exclude":[
-  ]
+  "exclude": [],
+  "compilerOptions": {
+    "target": "es5", //  按ES5规则编译文件
+    "module": "commonjs", //  按commonjs规范输出 
+    "lib": ["ES2015", "dom"],
+    // "sourceMap": true,
+    // "outDir": "dist", // 输出文件夹
+    // "rootDir": "./", // 当前目录下的ts文件
+    // "strict": true, //  严格模式下，不允许出现未声明类型
+
+  }
 }

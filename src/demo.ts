@@ -54,6 +54,7 @@ newArr = [3, 4, 5];
 
 let arrOne: (number | string)[] = [1, 2, 3, "99"];
 let arrTwo: Array<number | string> = [1, 2, "99"];
+
 /**
  * 元组，就是固定长度的数组
  * 语法:[类型，类型，类型]
@@ -192,6 +193,30 @@ xp.add(20);
 console.log(xp.get());
 // alert(xp.get());
 
+// 泛型约束(extends)
+function add<T extends number>(a: T, b: T) {
+  return a + b;
+}
+
+let fObj = {
+  name: "erxun",
+  sex: "man",
+  age: 19,
+};
+
+type key = keyof typeof fObj;
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * 类型断言,允许开发者手动指定一个值的类型，即告诉编译器一个变量的类型，从而可以避免一些类型检查错误或者限制。
  * (一种 "欺骗" typescript 类型判断的机制,运行时错误无法避免，勿滥用！！！)
@@ -201,7 +226,6 @@ console.log(xp.get());
 
 let numberA: number = 123;
 let stringA: string = "456";
-
 // as 语法
 function rLength(str: number | string): void {
   let len = (str as string).length;
@@ -220,3 +244,34 @@ function cTest(val: aObj | bObj): void {
   console.log("newAge", newAge);
 }
 cTest({ name: "erxun", age: 20 });
+
+/**
+ * never 类型
+ */
+
+type A = string & number; // type A = never
+
+/**
+ * Symbol,唯一
+ */
+let s1: symbol = Symbol(1);
+let s2: symbol = Symbol(1);
+console.log(s1 === s2); // false ，内存地址不同
+
+// Symbol.for() 先全局去找有没有注册过 key ，有的话直接引用；如果没有的话，就直接创建一个
+console.log("Symbol---", Symbol.for("erxun") === Symbol.for("erxun")); // true
+
+let sObj = {
+  name: "erxun",
+  [s1]: 123,
+  [s2]: "999",
+};
+
+// for in 不能读取到 ; symbol,Object.keys(), Object.getOwnPropertyNames(sObj)) 也读取不到
+for (const key in sObj) {
+  console.log("key", key);
+}
+console.log("111", Object.getOwnPropertySymbols(sObj));
+
+//  Reflect.ownKeys(sObj)
+console.log("Reflect.ownKeys(sObj)", Reflect.ownKeys(sObj));

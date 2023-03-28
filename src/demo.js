@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var _a;
 /**
  * 1. 使用字面量进行声明
  */
@@ -169,6 +170,15 @@ xp.add("boy");
 xp.add(20);
 console.log(xp.get());
 // alert(xp.get());
+// 泛型约束(extends)
+function add(a, b) {
+    return a + b;
+}
+var fObj = {
+    name: "erxun",
+    sex: "man",
+    age: 19,
+};
 /**
  * 类型断言,允许开发者手动指定一个值的类型，即告诉编译器一个变量的类型，从而可以避免一些类型检查错误或者限制。
  * (一种 "欺骗" typescript 类型判断的机制,运行时错误无法避免，勿滥用！！！)
@@ -188,3 +198,24 @@ function cTest(val) {
     console.log("newAge", newAge);
 }
 cTest({ name: "erxun", age: 20 });
+/**
+ * Symbol,唯一
+ */
+var s1 = Symbol(1);
+var s2 = Symbol(1);
+console.log(s1 === s2); // false ，内存地址不同
+// Symbol.for() 先全局去找有没有注册过 key ，有的话直接引用；如果没有的话，就直接创建一个
+console.log("Symbol---", Symbol.for("erxun") === Symbol.for("erxun")); // true
+var sObj = (_a = {
+        name: "erxun"
+    },
+    _a[s1] = 123,
+    _a[s2] = "999",
+    _a);
+// for in 不能读取到 ; symbol,Object.keys(), Object.getOwnPropertyNames(sObj)) 也读取不到
+for (var key in sObj) {
+    console.log("key", key);
+}
+console.log("111", Object.getOwnPropertySymbols(sObj));
+//  Reflect.ownKeys(sObj)
+console.log("Reflect.ownKeys(sObj)", Reflect.ownKeys(sObj));
